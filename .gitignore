@@ -1,0 +1,8 @@
+# Bỏ qua file chứa biến môi trường (sensitive data)
+.env
+
+# Bỏ qua thư mục node_modules (thường rất lớn và dễ dàng tạo lại)
+/node_modules
+
+# Bỏ qua các file nhật ký (log files)
+*.log

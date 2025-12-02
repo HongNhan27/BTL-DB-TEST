@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo SQL Server + Express</title>
+    <link rel="stylesheet" href="Form/style.css"> 
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Demo kết nối CSDL (Node.js + Express + SQL Server)</h1>
+        </header>
+
+        <section id="users-section" class="card">
+            <h2>Quản lý USERS (InsertUser / UpdateUser / DeleteUser)</h2>
+
+            <div class="search-bar">
+                <input id="user-search-input" type="text" placeholder="Tìm theo tên/email/SĐT">
+                <div class="button-group">
+                    <button id="user-search-btn" class="btn primary">Search</button>
+                    <button id="user-refresh-btn" class="btn secondary">Reload</button>
+                </div>
+            </div>
+
+            <form id="user-form" class="data-form">
+                <h3 id="user-form-title">Thêm user mới</h3>
+
+                <div class="form-group">
+                    <label for="user-id">ID:</label>
+                    <input type="number" id="user-id" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="user-hoten">Họ tên:</label>
+                    <input type="text" id="user-hoten" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="user-email">Email:</label>
+                    <input type="email" id="user-email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="user-sdt">SĐT:</label>
+                    <input type="text" id="user-sdt">
+                </div>
+
+                <div class="form-group">
+                    <label for="user-password">Password:</label>
+                    <input type="password" id="user-password">
+                </div>
+
+                <div class="form-group">
+                    <label for="user-tknh">Tài khoản NH:</label>
+                    <input type="text" id="user-tknh">
+                </div>
+
+                <div class="form-group">
+                    <label for="user-diachi">Địa chỉ:</label>
+                    <input type="text" id="user-diachi">
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" id="user-submit-btn" class="btn success">Tạo mới</button>
+                    <button type="button" id="user-cancel-edit-btn" class="btn danger" style="display:none;">Hủy edit</button>
+                </div>
+            </form>
+
+            <div id="user-message" class="message"></div>
+
+            <div class="table-container">
+                <table id="users-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Họ tên</th>
+                            <th>Email</th>
+                            <th>SĐT</th>
+                            <th>TKNH</th>
+                            <th>Địa chỉ</th>
+                            <th>Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section id="orders-section" class="card">
+            <h2>Tìm kiếm đơn hàng (GetOrderByCustomerAndStatus)</h2>
+
+            <form id="order-search-form" class="search-form">
+                <div class="form-group">
+                    <label for="order-customer-id">Customer ID:</label>
+                    <input type="number" id="order-customer-id" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="order-trangthai">Trạng thái:</label>
+                    <select id="order-trangthai" required>
+                        <option value="">-- Chọn trạng thái --</option>
+                        <option value="đang xử lý">đang xử lý</option>
+                        <option value="đang giao">đang giao</option>
+                        <option value="hoàn tất">hoàn tất</option>
+                        <option value="hủy">hủy</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn primary">Tìm</button>
+            </form>
+
+            <div id="orders-message" class="message"></div>
+
+            <div class="table-container">
+                <table id="orders-table" class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Mã đơn</th>
+                            <th>Ngày tạo</th>
+                            <th>Nhà hàng</th>
+                            <th>Trạng thái</th>
+                            <th>Giá đơn</th>
+                            <th>Phí giao</th>
+                            <th>Địa chỉ giao</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </div>
+        </section>
+
+        <hr class="divider">
+
+        <section id="stats-section" class="card">
+            <h2>Thống kê tổng chi tiêu khách hàng (fn_TongChiTieuKhachHang)</h2>
+
+            <form id="stats-form" class="search-form">
+                <div class="form-group">
+                    <label for="stats-customer-id">Customer ID:</label>
+                    <input type="number" id="stats-customer-id" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="stats-from-date">From date:</label>
+                    <input type="date" id="stats-from-date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="stats-to-date">To date:</label>
+                    <input type="date" id="stats-to-date" required>
+                </div>
+
+                <button type="submit" class="btn primary">Tính</button>
+            </form>
+
+            <div id="stats-message" class="message"></div>
+        </section>
+    </div>
+
+    <script src="Form/main.js"></script>
+</body>
+</html>
