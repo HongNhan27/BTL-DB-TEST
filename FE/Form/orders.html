@@ -3,45 +3,64 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Danh sách đơn hàng</title>
+  <title>Đơn hàng theo trạng thái</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <a href="index.html">&larr; Về menu chính</a>
-  <h1>Tìm kiếm đơn hàng (GetOrderByCustomerAndStatus)</h1>
+<body class="page-body">
+  <div class="page-container">
+    <div class="page-card">
 
-  <form id="order-search-form">
-    <label>Customer ID:
-      <input type="number" id="order-customer-id" required>
-    </label>
-    <label>Trạng thái:
-      <select id="order-trangthai" required>
-        <option value="">--Chọn--</option>
-        <option value="đang xử lý">đang xử lý</option>
-        <option value="đang giao">đang giao</option>
-        <option value="hoàn tất">hoàn tất</option>
-        <option value="hủy">hủy</option>
-      </select>
-    </label>
-    <button type="submit">Tìm</button>
-  </form>
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1>Đơn hàng theo trạng thái</h1>
+          <p>Gọi stored procedure <strong>GetOrderByCustomerAndStatus</strong></p>
+        </div>
+        <a href="index.html" class="back-link">← Về menu chính</a>
+      </div>
 
-  <div id="orders-message" class="message"></div>
+      <form id="order-search-form">
+        <div class="form-row">
+          <label>
+            Customer ID<br>
+            <input type="number" id="order-customer-id" required>
+          </label>
 
-  <table id="orders-table" border="1" cellpadding="5" cellspacing="0">
-    <thead>
-      <tr>
-        <th>Mã đơn</th>
-        <th>Ngày tạo</th>
-        <th>Nhà hàng</th>
-        <th>Trạng thái</th>
-        <th>Giá đơn</th>
-        <th>Phí giao</th>
-        <th>Địa chỉ</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+          <label>
+            Trạng thái<br>
+            <select id="order-trangthai" required>
+              <option value="">--Chọn--</option>
+              <option value="đang xử lý">đang xử lý</option>
+              <option value="đang giao">đang giao</option>
+              <option value="hoàn tất">hoàn tất</option>
+              <option value="hủy">hủy</option>
+            </select>
+          </label>
+
+          <button type="submit">Tìm đơn hàng</button>
+        </div>
+      </form>
+
+      <div id="orders-message" class="message"></div>
+
+      <div class="table-wrapper">
+        <table id="orders-table">
+          <thead>
+            <tr>
+              <th>Mã đơn</th>
+              <th>Ngày tạo</th>
+              <th>Nhà hàng</th>
+              <th>Trạng thái</th>
+              <th>Giá đơn</th>
+              <th>Phí giao</th>
+              <th>Địa chỉ</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
 
   <script src="orders.js"></script>
 </body>

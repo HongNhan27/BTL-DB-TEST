@@ -1,20 +1,49 @@
-<!-- FE/Form/index.html -->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
   <meta charset="UTF-8">
-  <title>Menu chính</title>
+  <title>Menu chính - Demo CSDL</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <h1>Demo kết nối CSDL – Menu chính</h1>
+<body class="home-body">
+  <div class="home-overlay"></div>
 
-  <ul>
-    <li><a href="users.html">3.1 – CRUD USERS (Insert/Update/Delete)</a></li>
-    <li><a href="orders.html">3.2 – Danh sách đơn hàng (GetOrderByCustomerAndStatus)</a></li>
-    <li><a href="restaurant-stats.html">3.3 – Thống kê doanh thu nhà hàng (GetRestaurantSalesStats)</a></li>
-    <li><a href="stats-spending.html">3.3 – Thống kê tổng chi tiêu KH (fn_TongChiTieuKhachHang)</a></li>
-    <li><a href="stats-voucher.html">3.3 – Tổng tiền tiết kiệm từ voucher (fn_TongTienTietKiemTuVoucher)</a></li>
-  </ul>
+  <div class="home-container">
+    <header class="home-header">
+      <h1>Demo kết nối CSDL</h1>
+      <p>Chọn chức năng bạn muốn minh họa</p>
+    </header>
+
+    <main class="home-main">
+      <div class="menu-grid">
+
+        <a href="users.html" class="menu-card">
+          <h2>CRUD USERS</h2>
+          <p>Thêm / sửa / xóa dữ liệu bảng USERS qua stored procedure.</p>
+        </a>
+
+        <a href="orders.html" class="menu-card">
+          <h2>Đơn hàng</h2>
+          <p>Hiển thị danh sách đơn hàng từ GetOrderByCustomerAndStatus.</p>
+        </a>
+
+        <a href="restaurant-stats.html" class="menu-card">
+          <h2>Thống kê nhà hàng</h2>
+          <p>Doanh thu nhà hàng bằng GetRestaurantSalesStats.</p>
+        </a>
+
+        <a href="stats-spending.html" class="menu-card">
+          <h2>Chi tiêu khách hàng</h2>
+          <p>Tổng chi tiêu từ fn_TongChiTieuKhachHang.</p>
+        </a>
+
+        <a href="stats-voucher.html" class="menu-card">
+          <h2>Tiết kiệm voucher</h2>
+          <p>Tiền tiết kiệm từ fn_TongTienTietKiemTuVoucher.</p>
+        </a>
+
+      </div>
+    </main>
+  </div>
 </body>
 </html>

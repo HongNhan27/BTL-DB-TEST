@@ -6,37 +6,58 @@
   <title>Thống kê doanh thu nhà hàng</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <a href="index.html">&larr; Về menu chính</a>
-  <h1>Thống kê doanh thu nhà hàng (GetRestaurantSalesStats)</h1>
+<body class="page-body">
+  <div class="page-container">
+    <div class="page-card">
 
-  <form id="rs-form">
-    <label>From date:
-      <input type="date" id="rs-from" required>
-    </label>
-    <label>To date:
-      <input type="date" id="rs-to" required>
-    </label>
-    <label>Min total (VNĐ):
-      <input type="number" id="rs-min" required value="50000">
-    </label>
-    <button type="submit">Thống kê</button>
-  </form>
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1>Thống kê doanh thu nhà hàng</h1>
+          <p>Gọi stored procedure <strong>GetRestaurantSalesStats</strong></p>
+        </div>
+        <a href="index.html" class="back-link">← Về menu chính</a>
+      </div>
 
-  <div id="rs-message" class="message"></div>
+      <form id="rs-form">
+        <div class="form-row">
+          <label>
+            From date<br>
+            <input type="date" id="rs-from" required>
+          </label>
 
-  <table id="rs-table" border="1" cellpadding="5" cellspacing="0">
-    <thead>
-      <tr>
-        <th>Restaurant ID</th>
-        <th>Tên nhà hàng</th>
-        <th>Số đơn hàng</th>
-        <th>Tổng doanh thu</th>
-        <th>Giá trị TB</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+          <label>
+            To date<br>
+            <input type="date" id="rs-to" required>
+          </label>
+
+          <label>
+            Min total (VNĐ)<br>
+            <input type="number" id="rs-min" required value="50000">
+          </label>
+
+          <button type="submit">Thống kê</button>
+        </div>
+      </form>
+
+      <div id="rs-message" class="message"></div>
+
+      <div class="table-wrapper">
+        <table id="rs-table">
+          <thead>
+            <tr>
+              <th>Restaurant ID</th>
+              <th>Tên nhà hàng</th>
+              <th>Số đơn hàng</th>
+              <th>Tổng doanh thu</th>
+              <th>Giá trị TB</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
 
   <script src="restaurant-stats.js"></script>
 </body>

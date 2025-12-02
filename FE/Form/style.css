@@ -398,3 +398,230 @@ input:focus, select:focus {
             "stats-section";
     }
 }
+/* ===========================
+   HOME / MENU PAGE
+=========================== */
+
+.home-body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  /* Placeholder background: gradient + có thể thay bằng ảnh */
+  background: linear-gradient(135deg, #7e63f5 0%, #3b1bf5 100%);
+  position: relative;
+  color: #222;
+}
+
+.home-overlay {
+  /* nếu bạn muốn đặt background image thì sửa ở đây */
+  position: fixed;
+  inset: 0;
+  background-image: url("backgorund2.jpg"); /* placeholder */
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18; /* mờ để chữ dễ đọc */
+  z-index: 0;
+  pointer-events: none;
+}
+
+.home-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #222;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+}
+
+.home-header h1 {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+.home-header p {
+  margin-top: 8px;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.home-main {
+  display: flex;
+  justify-content: center;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Khi màn nhỏ (<768px) thì chuyển thành 1 cột */
+@media (max-width: 768px) {
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.menu-card {
+  display: block;
+  text-decoration: none;
+  padding: 20px 22px;
+  border-radius: 18px; /* bo tròn */
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  color: #222;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.menu-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+.menu-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  background: #ffffff;
+}
+/* ===========================
+   SUB PAGES (ORDERS / STATS / ETC)
+=========================== */
+
+.page-body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.page-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 16px 50px;
+}
+
+.page-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px 22px 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eceff4;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.page-title-group h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.page-title-group p {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.back-link {
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  color: #555;
+}
+
+.back-link:hover {
+  background: #f0f0f0;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: flex-end;
+  margin-bottom: 12px;
+}
+
+.form-row label {
+  font-size: 0.9rem;
+}
+
+.form-row input,
+.form-row select {
+  width: 180px;
+}
+
+/* Cho nút trong form */
+.form-row button {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: #4f46e5;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.form-row button:hover {
+  background: #4338ca;
+}
+
+/* Message */
+.message {
+  margin-top: 8px;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.message.success {
+  background-color: #e0ffe0;
+  color: #0a0;
+}
+
+.message.error {
+  background-color: #ffe0e0;
+  color: #a00;
+}
+
+/* Table wrapper */
+.table-wrapper {
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+.table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+  padding: 6px 8px;
+  border: 1px solid #e0e0e0;
+  font-size: 0.9rem;
+}
+
+.table-wrapper th {
+  background: #f2f4f8;
+}

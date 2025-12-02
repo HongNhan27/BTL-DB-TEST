@@ -6,24 +6,43 @@
   <title>Tiết kiệm từ voucher</title>
   <link rel="stylesheet" href="style.css">
 </head>
-<body>
-  <a href="index.html">&larr; Về menu chính</a>
-  <h1>fn_TongTienTietKiemTuVoucher</h1>
+<body class="page-body">
+  <div class="page-container">
+    <div class="page-card">
 
-  <form id="vs-form">
-    <label>Customer ID:
-      <input type="number" id="vs-cid" required>
-    </label>
-    <label>From date:
-      <input type="date" id="vs-from" required>
-    </label>
-    <label>To date:
-      <input type="date" id="vs-to" required>
-    </label>
-    <button type="submit">Tính</button>
-  </form>
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1>Tổng tiền tiết kiệm từ voucher</h1>
+          <p>Gọi function <strong>fn_TongTienTietKiemTuVoucher</strong></p>
+        </div>
+        <a href="index.html" class="back-link">← Về menu chính</a>
+      </div>
 
-  <div id="vs-message" class="message"></div>
+      <form id="vs-form">
+        <div class="form-row">
+          <label>
+            Customer ID<br>
+            <input type="number" id="vs-cid" required>
+          </label>
+
+          <label>
+            From date<br>
+            <input type="date" id="vs-from" required>
+          </label>
+
+          <label>
+            To date<br>
+            <input type="date" id="vs-to" required>
+          </label>
+
+          <button type="submit">Tính tiết kiệm</button>
+        </div>
+      </form>
+
+      <div id="vs-message" class="message"></div>
+
+    </div>
+  </div>
 
   <script src="stats-voucher.js"></script>
 </body>
