@@ -1,0 +1,43 @@
+<!-- FE/Form/restaurant-stats.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thống kê doanh thu nhà hàng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="index.html">&larr; Về menu chính</a>
+  <h1>Thống kê doanh thu nhà hàng (GetRestaurantSalesStats)</h1>
+
+  <form id="rs-form">
+    <label>From date:
+      <input type="date" id="rs-from" required>
+    </label>
+    <label>To date:
+      <input type="date" id="rs-to" required>
+    </label>
+    <label>Min total (VNĐ):
+      <input type="number" id="rs-min" required value="50000">
+    </label>
+    <button type="submit">Thống kê</button>
+  </form>
+
+  <div id="rs-message" class="message"></div>
+
+  <table id="rs-table" border="1" cellpadding="5" cellspacing="0">
+    <thead>
+      <tr>
+        <th>Restaurant ID</th>
+        <th>Tên nhà hàng</th>
+        <th>Số đơn hàng</th>
+        <th>Tổng doanh thu</th>
+        <th>Giá trị TB</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script src="restaurant-stats.js"></script>
+</body>
+</html>

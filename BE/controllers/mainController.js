@@ -254,3 +254,104 @@ exports.getCustomerSpending = async (req, res) => {
     });
   }
 };
+/* ... các hàm getUsers, createUser, updateUser, deleteUser, searchOrders,
+       getCustomerSpending giữ nguyên như mình đã gửi trước ... */
+
+// 3.3 – PROC GetRestaurantSalesStats
+// API: GET /api/stats/restaurantsales?fromDate=2024-01-01&toDate=2026-01-01&minTotal=50000
+exports.getRestaurantSalesStats = async (req, res) => {
+  const { fromDate, toDate, minTotal } = req.query;
+
+  if (!fromDate || !toDate || !minTotal) {
+    return res.status(400).json({
+      success: false,
+      message: 'Thiếu fromDate, toDate hoặc minTotal'
+    });
+  }
+
+  try {
+    const pool = await poolPromise;
+    const request = pool.request()
+      .input('FromDate', sql.DateTime, new Date(fromDate))
+      .input('ToDate', sql.DateTime, new Date(toDate))
+      .input('MinTotal', sql.Decimal(10, 2), parseFloat(minTotal));
+
+    const result = await request.execute('GetRestaurantSalesStats');
+
+    res.json({
+      success: true,
+      data: result.recordset
+    });
+  } catch (err) {
+    console.error(err);
+    const sqlMsg =
+      err.originalError && err.originalError.info
+        ? err.originalError.info.message
+        : err.message;
+
+    res.status(400).json({
+      success: false,
+      message: 'Lỗi khi thống kê doanh thu nhà hàng',
+      error: sqlMsg
+    });
+  }
+};
+
+// 3.3 – FUNCTION fn_TongTienTietKiemTuVoucher
+// API: GET /api/stats/voucherSaving?customerID=4&fromDate=2024-01-01&toDate=2026-01-01
+exports.getCustomerVoucherSaving = async (req, res) => {
+  const { customerID, fromDate, toDate } = req.query;
+
+  if (!customerID || !fromDate || !toDate) {
+    return res.status(400).json({
+      success: false,
+      message: 'Thiếu customerID, fromDate hoặc toDate'
+    });
+  }
+
+  try {
+    const pool = await poolPromise;
+    const request = pool.request()
+      .input('CustomerID', sql.Int, parseInt(customerID, 10))
+      .input('FromDate', sql.DateTime, new Date(fromDate))
+      .input('ToDate', sql.DateTime, new Date(toDate));
+
+    const query = `
+      SELECT dbo.fn_TongTienTietKiemTuVoucher(@CustomerID, @FromDate, @ToDate) AS TotalSaving;
+    `;
+    const result = await request.query(query);
+    const total = result.recordset[0].TotalSaving;
+
+    let message;
+    if (total < 0) {
+      switch (total) {
+        case -1:
+          message = 'Lỗi: Tham số đầu vào NULL.';
+          break;
+        case -2:
+          message = 'Lỗi: Khoảng thời gian không hợp lệ (FromDate > ToDate).';
+          break;
+        case -3:
+          message = 'Lỗi: Khách hàng không tồn tại.';
+          break;
+        default:
+          message = 'Lỗi không xác định.';
+      }
+    } else {
+      message = `Khách hàng #${customerID} đã tiết kiệm ${total} nhờ voucher (từ ${fromDate} đến ${toDate}).`;
+    }
+
+    res.json({
+      success: true,
+      total,
+      message
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(400).json({
+      success: false,
+      message: 'Lỗi khi tính tổng tiền tiết kiệm từ voucher',
+      error: err.message
+    });
+  }
+};

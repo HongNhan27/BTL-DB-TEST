@@ -1,0 +1,30 @@
+<!-- FE/Form/stats-voucher.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Tiết kiệm từ voucher</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="index.html">&larr; Về menu chính</a>
+  <h1>fn_TongTienTietKiemTuVoucher</h1>
+
+  <form id="vs-form">
+    <label>Customer ID:
+      <input type="number" id="vs-cid" required>
+    </label>
+    <label>From date:
+      <input type="date" id="vs-from" required>
+    </label>
+    <label>To date:
+      <input type="date" id="vs-to" required>
+    </label>
+    <button type="submit">Tính</button>
+  </form>
+
+  <div id="vs-message" class="message"></div>
+
+  <script src="stats-voucher.js"></script>
+</body>
+</html>

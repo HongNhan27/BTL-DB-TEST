@@ -7,7 +7,8 @@ const app = express();
 app.use(express.json());// Nếu bạn submit form dạng application/x-www-form-urlencoded thì cần thêm:
 app.use(express.urlencoded({ extended: true }));
 // Serve static FE (HTML/JS/CSS)
-app.use(express.static(path.join(__dirname, 'FE')));
+app.use(express.static(path.join(__dirname, 'FE', 'Form')));
+
 // API routes
 const mainRouter = require('./BE/routers/mainRouter');
 app.use('/api', mainRouter);

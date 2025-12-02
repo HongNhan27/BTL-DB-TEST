@@ -1,155 +1,20 @@
+<!-- FE/Form/index.html -->
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Quản lý - Demo CSDL</title>
-    <link rel="stylesheet" href="Form/style.css"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <meta charset="UTF-8">
+  <title>Menu chính</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="main-background"></div> 
-    
-    <div class="container">
-        <header>
-            <i class="fas fa-database header-icon"></i>
-            <h1>DASHBOARD QUẢN LÝ DỮ LIỆU</h1>
-            <p>Demo kết nối Node.js + Express + SQL Server</p>
-        </header>
+  <h1>Demo kết nối CSDL – Menu chính</h1>
 
-        <main class="dashboard-grid">
-            
-            <section id="users-section" class="card user-card">
-                <div class="card-header">
-                    <i class="fas fa-users"></i>
-                    <h2>Quản lý Khách hàng (USERS)</h2>
-                </div>
-
-                <form id="user-form" class="data-form">
-                    <h3 id="user-form-title">Thêm user mới</h3>
-    
-                    <div class="form-group"><label for="user-id">ID:</label><input type="number" id="user-id" required></div>
-                    <div class="form-group"><label for="user-hoten">Họ tên:</label><input type="text" id="user-hoten" required></div>
-                    <div class="form-group"><label for="user-email">Email:</label><input type="email" id="user-email" required></div>
-                    <div class="form-group"><label for="user-sdt">SĐT:</label><input type="text" id="user-sdt"></div>
-                    <div class="form-group"><label for="user-password">Password:</label><input type="password" id="user-password"></div>
-                    <div class="form-group"><label for="user-tknh">Tài khoản NH:</label><input type="text" id="user-tknh"></div>
-                    <div class="form-group"><label for="user-diachi">Địa chỉ:</label><input type="text" id="user-diachi"></div>
-    
-                    <div class="form-actions">
-                        <button type="submit" id="user-submit-btn" class="btn btn-primary">
-                            <i class="fas fa-plus"></i> Tạo mới
-                        </button>
-                        <button type="button" id="user-cancel-edit-btn" class="btn btn-secondary" style="display:none;">
-                            <i class="fas fa-times"></i> Hủy edit
-                        </button>
-                    </div>
-                </form>
-
-                <div id="user-message" class="message"></div>
-
-                <div class="search-bar">
-                    <input id="user-search-input" type="text" placeholder="Tìm theo tên/email/SĐT...">
-                    <button id="user-search-btn" class="btn btn-search"><i class="fas fa-search"></i> Search</button>
-                    <button id="user-refresh-btn" class="btn btn-secondary-outline"><i class="fas fa-sync-alt"></i> Reload</button>
-                </div>
-    
-                <div class="table-container">
-                    <table id="users-table" class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Họ tên</th>
-                                <th>Email</th>
-                                <th>SĐT</th>
-                                <th>TKNH</th>
-                                <th>Địa chỉ</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section id="orders-section" class="card order-search-card">
-                <div class="card-header">
-                    <i class="fas fa-search"></i>
-                    <h2>Tìm kiếm Đơn hàng theo KH và Trạng thái</h2>
-                </div>
-
-                <form id="order-search-form" class="search-form">
-                    <div class="form-group">
-                        <label for="order-customer-id">Customer ID:</label>
-                        <input type="number" id="order-customer-id" required>
-                    </div>
-    
-                    <div class="form-group">
-                        <label for="order-trangthai">Trạng thái:</label>
-                        <select id="order-trangthai" required>
-                            <option value="">-- Chọn trạng thái --</option>
-                            <option value="đang xử lý">Đang xử lý</option>
-                            <option value="đang giao">Đang giao</option>
-                            <option value="hoàn tất">Hoàn tất</option>
-                            <option value="hủy">Hủy</option>
-                        </select>
-                    </div>
-    
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-filter"></i> Tìm kiếm</button>
-                </form>
-    
-                <div id="orders-message" class="message"></div>
-    
-                <div class="table-container">
-                    <table id="orders-table" class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Mã đơn</th>
-                                <th>Ngày tạo</th>
-                                <th>Nhà hàng</th>
-                                <th>Trạng thái</th>
-                                <th>Giá đơn</th>
-                                <th>Phí giao</th>
-                                <th>Địa chỉ giao</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section id="stats-section" class="card stats-card">
-                <div class="card-header">
-                    <i class="fas fa-chart-line"></i>
-                    <h2>Thống kê Tổng Chi tiêu Khách hàng</h2>
-                </div>
-
-                <form id="stats-form" class="search-form">
-                    <div class="form-group">
-                        <label for="stats-customer-id">Customer ID:</label>
-                        <input type="number" id="stats-customer-id" required>
-                    </div>
-    
-                    <div class="form-group">
-                        <label for="stats-from-date">From date:</label>
-                        <input type="date" id="stats-from-date" required>
-                    </div>
-    
-                    <div class="form-group">
-                        <label for="stats-to-date">To date:</label>
-                        <input type="date" id="stats-to-date" required>
-                    </div>
-    
-                    <button type="submit" class="btn btn-primary"><i class="fas fa-calculator"></i> Tính</button>
-                </form>
-    
-                <div id="stats-message" class="message stats-result"></div>
-            </section>
-        </main>
-    </div>
-
-    <script src="Form/main.js"></script>
+  <ul>
+    <li><a href="users.html">3.1 – CRUD USERS (Insert/Update/Delete)</a></li>
+    <li><a href="orders.html">3.2 – Danh sách đơn hàng (GetOrderByCustomerAndStatus)</a></li>
+    <li><a href="restaurant-stats.html">3.3 – Thống kê doanh thu nhà hàng (GetRestaurantSalesStats)</a></li>
+    <li><a href="stats-spending.html">3.3 – Thống kê tổng chi tiêu KH (fn_TongChiTieuKhachHang)</a></li>
+    <li><a href="stats-voucher.html">3.3 – Tổng tiền tiết kiệm từ voucher (fn_TongTienTietKiemTuVoucher)</a></li>
+  </ul>
 </body>
 </html>

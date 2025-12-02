@@ -1,0 +1,30 @@
+<!-- FE/Form/stats-spending.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiêu khách hàng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a href="index.html">&larr; Về menu chính</a>
+  <h1>fn_TongChiTieuKhachHang</h1>
+
+  <form id="sp-form">
+    <label>Customer ID:
+      <input type="number" id="sp-cid" required>
+    </label>
+    <label>From date:
+      <input type="date" id="sp-from" required>
+    </label>
+    <label>To date:
+      <input type="date" id="sp-to" required>
+    </label>
+    <button type="submit">Tính</button>
+  </form>
+
+  <div id="sp-message" class="message"></div>
+
+  <script src="stats-spending.js"></script>
+</body>
+</html>
