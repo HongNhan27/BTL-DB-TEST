@@ -40,74 +40,169 @@ th {
 } */
  /* Màu sắc chủ đạo (Brand Colors) */
 :root {
-    --primary-color: #ee4d2d; /* Màu cam/đỏ Shopee */
-    --secondary-color: #555;
-    --background-light: #f5f5f5;
+    --primary-color: #007bff; /* Xanh dương đậm cho Admin/Dashboard */
+    --secondary-color: #6c757d;
+    --brand-color: #ee4d2d; /* Màu cam/đỏ (nếu cần nhấn mạnh) */
+    --background-dark: #e9ecef; /* Nền xám nhạt */
     --background-white: #ffffff;
     --success-color: #28a745;
     --danger-color: #dc3545;
-    --shadow: 0 1px 2px 0 rgba(0,0,0,.13);
+    --shadow-light: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --shadow-heavy: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
 
-/* Thiết lập cơ bản */
+/* ---------------------------------------------------------------------- */
+/* 1. BACKGROUND PLACEHOLDER */
+/* ---------------------------------------------------------------------- */
+#main-background {
+    /* Đây là placeholder, bạn có thể thay ảnh tại đây */
+    
+    /* background-image: url('backgorund2.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    filter: brightness(0.9);
+   
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-dark); /* Dùng màu nền nếu không có ảnh */
+    /* z-index: -1;*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('backgorund2.jpg'); /* <--- CHỈNH SỬA DƯỜNG DẪN NÀY */
+    background-size: cover;
+    background-attachment: fixed;
+    filter: brightness(0.95); /* Giảm độ sáng một chút để chữ dễ đọc */
+    z-index: -1;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 2. Cấu trúc Layout */
+/* ---------------------------------------------------------------------- */
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: var(--background-light);
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
     color: #333;
-    line-height: 1.6;
     margin: 0;
     padding: 0;
+    line-height: 1.5;
 }
 
 .container {
-    max-width: 1300px; /* Tăng chiều rộng tối đa */
-    margin: 30px auto;
-    padding: 0 15px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 15px;
 }
 
-/* Header */
 header {
     text-align: center;
-    margin-bottom: 25px;
     padding: 20px;
-    background-color: var(--background-white);
-    border-radius: 6px;
-    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.85); /* Trắng trong suốt */
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+}
+
+.header-icon {
+    font-size: 2.5em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
 }
 
 h1 {
     color: var(--primary-color);
-    font-size: 2.2em;
+    font-size: 2em;
     font-weight: 700;
+    margin: 0 0 5px 0;
+}
+
+p {
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+/* Bố cục chính Dashboard (sử dụng CSS Grid) */
+.dashboard-grid {
+    display: grid;
+    /* Chia thành 2 cột, cột bên phải nhỏ hơn */
+    grid-template-columns: 2fr 1fr; 
+    grid-template-areas: 
+        "user-section order-search-section"
+        "user-section stats-section";
+    gap: 20px;
+}
+
+#users-section {
+    grid-area: user-section;
+}
+#orders-section {
+    grid-area: order-search-section;
+}
+#stats-section {
+    grid-area: stats-section;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 3. Thẻ Card (Blocks) */
+/* ---------------------------------------------------------------------- */
+.card {
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-heavy);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--background-dark);
+}
+
+.card-header i {
+    font-size: 1.5em;
+    margin-right: 15px;
+    color: var(--brand-color);
 }
 
 h2 {
-    font-size: 1.5em;
-    padding-bottom: 10px;
-    margin-bottom: 20px;
-    color: #333;
+    font-size: 1.4em;
     font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+h3 {
+    grid-column: 1 / -1;
+    color: var(--primary-color);
+    margin-top: 0;
+    font-size: 1.2em;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
 }
 
-/* Thẻ Card cho từng Section */
-.card {
-    background-color: var(--background-white);
-    padding: 30px;
-    margin-bottom: 30px;
-    border-radius: 6px;
-    box-shadow: 0 1px 4px 0 rgba(0,0,0,.15); /* Đổ bóng rõ ràng hơn */
-}
-
-/* Form và Inputs */
+/* ---------------------------------------------------------------------- */
+/* 4. Form và Input */
+/* ---------------------------------------------------------------------- */
 .data-form, .search-form {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
     margin-bottom: 20px;
-    padding: 20px;
-    background-color: #fffafb; /* Nền nhẹ cho Form */
+    padding: 15px;
+    border: 1px solid #dee2e6;
     border-radius: 6px;
-    border: 1px solid #eee;
+    background-color: rgba(248, 249, 250, 0.7);
 }
 
 .form-group {
@@ -118,101 +213,115 @@ h2 {
 label {
     font-weight: 500;
     margin-bottom: 5px;
-    color: var(--secondary-color);
+    color: #555;
     font-size: 0.9em;
 }
 
-input[type="text"], 
-input[type="number"], 
-input[type="email"], 
-input[type="password"], 
-input[type="date"], 
-select {
-    width: 100%;
+input[type="text"], input[type="number"], input[type="email"], 
+input[type="password"], input[type="date"], select {
     padding: 10px 12px;
     border: 1px solid #ced4da;
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 1em;
-    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 input:focus, select:focus {
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 0.2rem rgba(238, 77, 45, 0.25);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
     outline: none;
-}
-
-/* Buttons */
-.btn {
-    padding: 10px 18px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: all 0.2s;
-    text-transform: uppercase;
-    box-shadow: var(--shadow);
-}
-
-.btn.primary {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-.btn.primary:hover {
-    background-color: #f63; /* Màu cam đậm hơn */
-    opacity: 0.9;
-}
-
-.btn.secondary {
-    background-color: #6c757d;
-    color: white;
-}
-
-.btn.secondary:hover {
-    background-color: #5a6268;
-}
-
-.btn.success {
-    background-color: var(--success-color);
-    color: white;
-}
-
-.btn.success:hover {
-    background-color: #1e7e34;
-}
-
-.btn.danger {
-    background-color: var(--danger-color);
-    color: white;
-}
-
-.btn.danger:hover {
-    background-color: #bd2130;
-}
-
-.action-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--primary-color);
-    margin: 0 5px;
-    font-size: 1em;
-    font-weight: 600;
-}
-
-.action-btn:hover {
-    color: #f63;
 }
 
 .form-actions {
     grid-column: 1 / -1;
     text-align: right;
     padding-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
 }
 
-/* Thông báo */
+/* ---------------------------------------------------------------------- */
+/* 5. Buttons */
+/* ---------------------------------------------------------------------- */
+.btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background-color: var(--brand-color); /* Màu nhấn mạnh: Cam/Đỏ */
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #d84529;
+    box-shadow: var(--shadow-heavy);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-secondary-outline {
+    background: none;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 8px 15px;
+}
+.btn-secondary-outline:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-search {
+    background-color: var(--primary-color);
+    color: white;
+}
+.btn-search:hover {
+    background-color: #0056b3;
+}
+
+/* Nút trong bảng (Edit/Delete) */
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 0 5px;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+.action-btn.edit { color: var(--success-color); }
+.action-btn.delete { color: var(--danger-color); }
+.action-btn:hover { text-decoration: underline; }
+
+/* ---------------------------------------------------------------------- */
+/* 6. Thanh Tìm kiếm & Thông báo */
+/* ---------------------------------------------------------------------- */
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+    align-items: center;
+}
+#user-search-input {
+    flex-grow: 1;
+}
+
 .message {
     padding: 12px;
     margin-bottom: 15px;
@@ -220,38 +329,32 @@ input:focus, select:focus {
     font-weight: 500;
     border-left: 5px solid;
 }
-/* Thêm các lớp này bằng JS khi có thông báo */
 .message.success {
     background-color: #d4edda;
-    color: #155724;
-    border-color: #c3e6cb;
+    color: var(--success-color);
+    border-color: var(--success-color);
 }
 .message.error {
     background-color: #f8d7da;
-    color: #721c24;
-    border-color: #f5c6cb;
+    color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+.stats-result {
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 700;
+    margin-top: 20px;
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffeeba;
 }
 
-
-/* Thanh Search (cho Users) */
-.search-bar {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 25px;
-    align-items: center;
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-}
-
-#user-search-input {
-    flex-grow: 1;
-    padding: 8px 10px;
-}
-
-/* Bảng Dữ liệu (Table) */
+/* ---------------------------------------------------------------------- */
+/* 7. Bảng Dữ liệu (Table) */
+/* ---------------------------------------------------------------------- */
 .table-container {
     overflow-x: auto;
-    box-shadow: var(--shadow);
+    box-shadow: var(--shadow-light);
     border-radius: 4px;
 }
 
@@ -262,21 +365,36 @@ input:focus, select:focus {
 }
 
 .data-table thead th {
-    background-color: #f9f9f9; /* Nền header nhẹ */
-    color: #333;
-    padding: 15px;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 15px;
     text-align: left;
-    font-weight: 700;
+    font-weight: 600;
     font-size: 0.9em;
-    border-bottom: 2px solid #ddd;
 }
 
 .data-table tbody td {
     padding: 12px 15px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 1px solid #e9ecef;
     font-size: 0.9em;
 }
 
+.data-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
 .data-table tbody tr:hover {
-    background-color: #fffbe8; /* Màu vàng nhẹ khi hover, gợi nhớ e-commerce */
+    background-color: #e2f4ff; /* Màu xanh nhạt khi hover */
+}
+
+/* Media Query cho thiết bị nhỏ hơn (responsive) */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        /* Chuyển sang bố cục 1 cột trên màn hình nhỏ */
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "user-section"
+            "order-search-section"
+            "stats-section";
+    }
 }
