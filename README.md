@@ -1,5 +1,4 @@
-# 🚀 Tên Dự Án Của Bạn (Ví dụ: Ứng Dụng Quản Lý Bán Hàng)
-
+# 🚀 ỨNG DỤNG QUẢN LÝ GIAO ĐỒ ĂN NHANH 
 ## Giới thiệu
 
 Đây là ứng dụng Web Demo (Sử dụng **Node.js/Express** cho Backend và **MSSQL** cho cơ sở dữ liệu) nhằm mục đích quản lý dữ liệu và thực hiện các thao tác CRUD cơ bản.
