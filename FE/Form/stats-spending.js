@@ -2,12 +2,13 @@
 const API_BASE = '/api';
 
 async function handleSPForm(e) {
+  
   e.preventDefault();
   const cid = document.getElementById('sp-cid').value;
   const from = document.getElementById('sp-from').value;
   const to = document.getElementById('sp-to').value;
   const msgDiv = document.getElementById('sp-message');
-
+  msgDiv.style.display = 'block'; 
   msgDiv.textContent = '';
 
   if (!cid || !from || !to) {

@@ -7,7 +7,7 @@ async function handleVSForm(e) {
   const from = document.getElementById('vs-from').value;
   const to = document.getElementById('vs-to').value;
   const msgDiv = document.getElementById('vs-message');
-
+  msgDiv.style.display = 'block'; 
   msgDiv.textContent = '';
 
   if (!cid || !from || !to) {

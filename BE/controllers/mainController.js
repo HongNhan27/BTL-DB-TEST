@@ -254,8 +254,6 @@ exports.getCustomerSpending = async (req, res) => {
     });
   }
 };
-/* ... các hàm getUsers, createUser, updateUser, deleteUser, searchOrders,
-       getCustomerSpending giữ nguyên như mình đã gửi trước ... */
 
 // 3.3 – PROC GetRestaurantSalesStats
 // API: GET /api/stats/restaurantsales?fromDate=2024-01-01&toDate=2026-01-01&minTotal=50000
