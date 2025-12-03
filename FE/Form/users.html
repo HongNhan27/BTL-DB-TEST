@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý USERS - CRUD</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-body">
+  <div class="page-container">
+    <div class="page-card">
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1>Quản lý USERS</h1>
+          <p>Thêm / Sửa / Xóa dữ liệu bảng USERS qua stored procedures (Câu 3.1)</p>
+        </div>
+        <a href="index.html" class="back-link">← Về menu chính</a>
+      </div>
+
+      <form id="user-form" class="data-form">
+        <h3 id="user-form-title">Thêm user mới</h3>
+        
+        <div class="form-group">
+          <label for="user-id">ID <span class="required">*</span>:</label>
+          <input type="number" id="user-id" required min="1">
+          <small class="form-hint">Số nguyên dương</small>
+        </div>
+
+        <div class="form-group">
+          <label for="user-hoten">Họ tên <span class="required">*</span>:</label>
+          <input type="text" id="user-hoten" required placeholder="Nguyễn Văn A">
+          <small class="form-hint">Chỉ chứa chữ cái và dấu cách</small>
+        </div>
+
+        <div class="form-group">
+          <label for="user-email">Email <span class="required">*</span>:</label>
+          <input type="email" id="user-email" required placeholder="example@email.com">
+          <small class="form-hint">Định dạng email hợp lệ</small>
+        </div>
+
+        <div class="form-group">
+          <label for="user-sdt">Số điện thoại <span class="required">*</span>:</label>
+          <input type="text" id="user-sdt" required pattern="0[0-9]{9}" maxlength="10" placeholder="0123456789">
+          <small class="form-hint">10 số, bắt đầu bằng 0</small>
+        </div>
+
+        <div class="form-group">
+          <label for="user-password">Mật khẩu <span class="required">*</span>:</label>
+          <input type="password" id="user-password" required minlength="8" placeholder="Tối thiểu 8 ký tự">
+          <small class="form-hint">≥8 ký tự, có chữ, số và ký tự đặc biệt</small>
+        </div>
+
+        <div class="form-group">
+          <label for="user-tknh">Tài khoản ngân hàng <span class="required">*</span>:</label>
+          <input type="text" id="user-tknh" required pattern="[0-9]{10,16}" minlength="10" maxlength="16" placeholder="1234567890">
+          <small class="form-hint">10-16 chữ số</small>
+        </div>
+
+        <div class="form-group">
+          <label for="user-diachi">Địa chỉ <span class="required">*</span>:</label>
+          <input type="text" id="user-diachi" required placeholder="Số nhà, đường, phường, quận, thành phố">
+        </div>
+    
+        <div class="form-actions">
+          <button type="submit" id="user-submit-btn" class="btn btn-primary">
+            Tạo mới
+          </button>
+          <button type="button" id="user-cancel-edit-btn" class="btn btn-secondary" style="display:none;">
+            Hủy chỉnh sửa
+          </button>
+        </div>
+      </form>
+
+      <div id="user-message" class="message"></div>
+
+      <div class="search-bar">
+        <input id="user-search-input" type="text" placeholder="Tìm theo tên, email hoặc SĐT...">
+        <button id="user-search-btn" class="btn btn-search">🔍 Tìm kiếm</button>
+        <button id="user-refresh-btn" class="btn btn-secondary-outline">🔄 Tải lại</button>
+      </div>
+    
+      <div class="table-container">
+        <table id="users-table" class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Họ tên</th>
+              <th>Email</th>
+              <th>SĐT</th>
+              <th>TKNH</th>
+              <th>Địa chỉ</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="7" style="text-align: center;">Đang tải...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="users.js"></script>
+</body>
+</html>

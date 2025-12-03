@@ -1,0 +1,64 @@
+<!-- FE/Form/restaurant-stats.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Thống kê doanh thu nhà hàng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-body">
+  <div class="page-container">
+    <div class="page-card">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1>Thống kê doanh thu nhà hàng</h1>
+          <p>Gọi stored procedure <strong>GetRestaurantSalesStats</strong></p>
+        </div>
+        <a href="index.html" class="back-link">← Về menu chính</a>
+      </div>
+
+      <form id="rs-form">
+        <div class="form-row">
+          <label>
+            Từ ngày <span class="required">*</span><br>
+            <input type="date" id="rs-from" required>
+          </label>
+
+          <label>
+            Đến ngày <span class="required">*</span><br>
+            <input type="date" id="rs-to" required>
+          </label>
+
+          <label>
+            Tổng tối thiểu (VNĐ) <span class="required">*</span><br>
+            <input type="number" id="rs-min" required value="50000" min="0" step="1000">
+          </label>
+
+          <button type="submit">Thống kê</button>
+        </div>
+      </form>
+
+      <div id="rs-message" class="message"></div>
+
+      <div class="table-wrapper">
+        <table id="rs-table">
+          <thead>
+            <tr>
+              <th>Restaurant ID</th>
+              <th>Tên nhà hàng</th>
+              <th>Số đơn hàng</th>
+              <th>Tổng doanh thu</th>
+              <th>Giá trị TB</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="restaurant-stats.js"></script>
+</body>
+</html>

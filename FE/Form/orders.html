@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quản lý Đơn hàng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-body">
+  <div class="page-container">
+    <div class="page-card">
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1>Quản lý Đơn hàng</h1>
+          <p>Gọi stored procedure <strong>GetOrderByCustomerAndStatus</strong> (Câu 3.2)</p>
+        </div>
+        <a href="index.html" class="back-link">← Về menu chính</a>
+      </div>
+
+      <form id="order-search-form">
+        <div class="form-row">
+          <label>
+            Customer ID <span class="required">*</span><br>
+            <input type="number" id="order-customer-id" required min="1" placeholder="Nhập ID khách hàng">
+          </label>
+
+          <label>
+            Trạng thái <span class="required">*</span><br>
+            <select id="order-trangthai" required>
+              <option value="">--Chọn trạng thái--</option>
+              <option value="đang xử lý">đang xử lý</option>
+              <option value="đang giao">đang giao</option>
+              <option value="hoàn tất">hoàn tất</option>
+              <option value="hủy">hủy</option>
+            </select>
+          </label>
+
+          <button type="submit" class="btn btn-primary">🔍 Tìm kiếm</button>
+          <button type="button" id="order-refresh-btn" class="btn btn-secondary">🔄 Tải lại</button>
+        </div>
+      </form>
+
+      <div id="orders-message" class="message"></div>
+
+      <!-- Controls for sorting and actions -->
+      <div class="table-controls" style="display: none;" id="table-controls">
+        <div class="sort-controls">
+          <label>Sắp xếp theo:</label>
+          <select id="sort-by">
+            <option value="ngay_tao">Ngày tạo</option>
+            <option value="gia_don_hang">Giá đơn hàng</option>
+            <option value="order_ID">Mã đơn</option>
+          </select>
+          <select id="sort-order">
+            <option value="desc">Giảm dần</option>
+            <option value="asc">Tăng dần</option>
+          </select>
+          <button type="button" id="apply-sort-btn" class="btn btn-secondary">Sắp xếp</button>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table id="orders-table">
+          <thead>
+            <tr>
+              <th>Mã đơn</th>
+              <th>Ngày tạo</th>
+              <th>Nhà hàng</th>
+              <th>Trạng thái</th>
+              <th>Giá đơn</th>
+              <th>Phí giao</th>
+              <th>Địa chỉ</th>
+              <th>Hành động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td colspan="8" style="text-align: center;">Vui lòng tìm kiếm đơn hàng</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal for updating order status -->
+  <div id="update-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Cập nhật trạng thái đơn hàng</h3>
+        <span class="modal-close" onclick="closeUpdateModal()">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="update-status-form">
+          <input type="hidden" id="update-order-id">
+          <p>Mã đơn: <strong id="update-order-id-display"></strong></p>
+          <p>Trạng thái hiện tại: <strong id="current-status-display"></strong></p>
+          <label>
+            Trạng thái mới <span class="required">*</span>:
+            <select id="new-status" required>
+              <option value="">--Chọn trạng thái--</option>
+            </select>
+          </label>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Cập nhật</button>
+            <button type="button" class="btn btn-secondary" onclick="closeUpdateModal()">Hủy</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="orders.js"></script>
+</body>
+</html>

@@ -1,0 +1,49 @@
+<!-- FE/Form/stats-spending.html -->
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Chi tiêu khách hàng</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-body">
+  <div class="page-container">
+    <div class="page-card">
+
+      <div class="page-header">
+        <div class="page-title-group">
+          <h1>Tổng chi tiêu khách hàng</h1>
+          <p>Gọi function <strong>fn_TongChiTieuKhachHang</strong></p>
+        </div>
+        <a href="index.html" class="back-link">← Về menu chính</a>
+      </div>
+
+      <form id="sp-form">
+        <div class="form-row">
+          <label>
+            Customer ID <span class="required">*</span><br>
+            <input type="number" id="sp-cid" required min="1" placeholder="Nhập ID khách hàng">
+          </label>
+
+          <label>
+            Từ ngày <span class="required">*</span><br>
+            <input type="date" id="sp-from" required>
+          </label>
+
+          <label>
+            Đến ngày <span class="required">*</span><br>
+            <input type="date" id="sp-to" required>
+          </label>
+
+          <button type="submit">Tính chi tiêu</button>
+        </div>
+      </form>
+
+      <div id="sp-message" class="message"></div>
+
+    </div>
+  </div>
+
+  <script src="stats-spending.js"></script>
+</body>
+</html>

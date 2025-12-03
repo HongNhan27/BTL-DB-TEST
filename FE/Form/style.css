@@ -1,0 +1,793 @@
+/* body {
+  font-family: Arial, sans-serif;
+  margin: 20px;
+}
+section {
+  margin-bottom: 40px;
+}
+h1, h2, h3 {
+  color: #333;
+}
+label {
+  display: inline-block;
+  margin: 4px 0;
+}
+input, select, button {
+  margin: 4px 2px;
+}
+table {
+  margin-top: 10px;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 5px 10px;
+}
+th {
+  background-color: #f0f0f0;
+}
+.message {
+  margin-top: 8px;
+  padding: 6px;
+  border-radius: 4px;
+}
+.message.success {
+  background-color: #e0ffe0;
+  color: #0a0;
+}
+.message.error {
+  background-color: #ffe0e0;
+  color: #a00;
+} */
+ /* Màu sắc chủ đạo (Brand Colors) */
+:root {
+    --primary-color: #007bff; /* Xanh dương đậm cho Admin/Dashboard */
+    --secondary-color: #6c757d;
+    --brand-color: #ee4d2d; /* Màu cam/đỏ (nếu cần nhấn mạnh) */
+    --background-dark: #e9ecef; /* Nền xám nhạt */
+    --background-white: #ffffff;
+    --success-color: #28a745;
+    --danger-color: #dc3545;
+    --shadow-light: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    --shadow-heavy: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* ---------------------------------------------------------------------- */
+/* 1. BACKGROUND PLACEHOLDER */
+/* ---------------------------------------------------------------------- */
+#main-background {
+    /* Đây là placeholder, bạn có thể thay ảnh tại đây */
+    
+    /* background-image: url('backgorund2.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    filter: brightness(0.9);
+   
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--background-dark); /* Dùng màu nền nếu không có ảnh */
+    /* z-index: -1;*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('backgorund2.jpg'); /* <--- CHỈNH SỬA DƯỜNG DẪN NÀY */
+    background-size: cover;
+    background-attachment: fixed;
+    filter: brightness(0.95); /* Giảm độ sáng một chút để chữ dễ đọc */
+    z-index: -1;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 2. Cấu trúc Layout */
+/* ---------------------------------------------------------------------- */
+body {
+    font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px 15px;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: rgba(255, 255, 255, 0.85); /* Trắng trong suốt */
+    border-radius: 8px;
+    box-shadow: var(--shadow-light);
+}
+
+.header-icon {
+    font-size: 2.5em;
+    color: var(--primary-color);
+    margin-bottom: 10px;
+}
+
+h1 {
+    color: var(--primary-color);
+    font-size: 2em;
+    font-weight: 700;
+    margin: 0 0 5px 0;
+}
+
+p {
+    color: var(--secondary-color);
+    margin: 0;
+}
+
+/* Bố cục chính Dashboard (sử dụng CSS Grid) */
+.dashboard-grid {
+    display: grid;
+    /* Chia thành 2 cột, cột bên phải nhỏ hơn */
+    grid-template-columns: 2fr 1fr; 
+    grid-template-areas: 
+        "user-section order-search-section"
+        "user-section stats-section";
+    gap: 20px;
+}
+
+#users-section {
+    grid-area: user-section;
+}
+#orders-section {
+    grid-area: order-search-section;
+}
+#stats-section {
+    grid-area: stats-section;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 3. Thẻ Card (Blocks) */
+/* ---------------------------------------------------------------------- */
+.card {
+    background-color: rgba(255, 255, 255, 0.85); 
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: var(--shadow-heavy);
+    transition: transform 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+}
+
+.card-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--background-dark);
+}
+
+.card-header i {
+    font-size: 1.5em;
+    margin-right: 15px;
+    color: var(--brand-color);
+}
+
+h2 {
+    font-size: 1.4em;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+h3 {
+    grid-column: 1 / -1;
+    color: var(--primary-color);
+    margin-top: 0;
+    font-size: 1.2em;
+    border-bottom: 1px dashed #eee;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 4. Form và Input */
+/* ---------------------------------------------------------------------- */
+.data-form, .search-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    background-color: rgba(248, 249, 250, 0.7);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #555;
+    font-size: 0.9em;
+}
+
+input[type="text"], input[type="number"], input[type="email"], 
+input[type="password"], input[type="date"], select {
+    padding: 10px 12px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+
+input:focus, select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    outline: none;
+}
+
+.form-actions {
+    grid-column: 1 / -1;
+    text-align: right;
+    padding-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 5. Buttons */
+/* ---------------------------------------------------------------------- */
+.btn {
+    padding: 10px 18px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s, box-shadow 0.2s;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-primary {
+    background-color: var(--brand-color); /* Màu nhấn mạnh: Cam/Đỏ */
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #d84529;
+    box-shadow: var(--shadow-heavy);
+}
+
+.btn-secondary {
+    background-color: var(--secondary-color);
+    color: white;
+}
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-secondary-outline {
+    background: none;
+    border: 1px solid var(--secondary-color);
+    color: var(--secondary-color);
+    padding: 8px 15px;
+}
+.btn-secondary-outline:hover {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+.btn-search {
+    background-color: var(--primary-color);
+    color: white;
+}
+.btn-search:hover {
+    background-color: #0056b3;
+}
+
+/* Nút trong bảng (Edit/Delete) */
+.action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1em;
+    margin: 0 5px;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+.action-btn.edit { color: var(--success-color); }
+.action-btn.delete { color: var(--danger-color); }
+.action-btn:hover { text-decoration: underline; }
+
+/* ---------------------------------------------------------------------- */
+/* 6. Thanh Tìm kiếm & Thông báo */
+/* ---------------------------------------------------------------------- */
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+    align-items: center;
+}
+#user-search-input {
+    flex-grow: 1;
+}
+
+.message {
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 4px;
+    font-weight: 500;
+    border-left: 5px solid;
+}
+.message.success {
+    background-color: #d4edda;
+    color: var(--success-color);
+    border-color: var(--success-color);
+}
+.message.error {
+    background-color: #f8d7da;
+    color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+.stats-result {
+    font-size: 1.5em;
+    text-align: center;
+    font-weight: 700;
+    margin-top: 20px;
+    background-color: #fff3cd;
+    color: #856404;
+    border-color: #ffeeba;
+}
+
+/* ---------------------------------------------------------------------- */
+/* 7. Bảng Dữ liệu (Table) */
+/* ---------------------------------------------------------------------- */
+.table-container {
+    overflow-x: auto;
+    box-shadow: var(--shadow-light);
+    border-radius: 4px;
+}
+
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--background-white);
+}
+
+.data-table thead th {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.9em;
+}
+
+.data-table tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e9ecef;
+    font-size: 0.9em;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.data-table tbody tr:hover {
+    background-color: #e2f4ff; /* Màu xanh nhạt khi hover */
+}
+
+/* Media Query cho thiết bị nhỏ hơn (responsive) */
+@media (max-width: 1200px) {
+    .dashboard-grid {
+        /* Chuyển sang bố cục 1 cột trên màn hình nhỏ */
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "user-section"
+            "order-search-section"
+            "stats-section";
+    }
+}
+/* ===========================
+   HOME / MENU PAGE
+=========================== */
+
+.home-body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  /* Placeholder background: gradient + có thể thay bằng ảnh */
+  background: linear-gradient(135deg, #7e63f5 0%, #3b1bf5 100%);
+  position: relative;
+  color: #222;
+}
+
+.home-overlay {
+  /* nếu bạn muốn đặt background image thì sửa ở đây */
+  position: fixed;
+  inset: 0;
+  background-image: url("backgorund2.jpg"); /* placeholder */
+  background-size: cover;
+  background-position: center;
+  opacity: 0.18; /* mờ để chữ dễ đọc */
+  z-index: 0;
+  pointer-events: none;
+}
+
+.home-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px 60px;
+}
+
+.home-header {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #222;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
+}
+
+.home-header h1 {
+  margin: 0;
+  font-size: 2.4rem;
+  font-weight: 700;
+}
+
+.home-header p {
+  margin-top: 8px;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.home-main {
+  display: flex;
+  justify-content: center;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+/* Khi màn nhỏ (<768px) thì chuyển thành 1 cột */
+@media (max-width: 768px) {
+  .menu-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.menu-card {
+  display: block;
+  text-decoration: none;
+  padding: 20px 22px;
+  border-radius: 18px; /* bo tròn */
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  color: #222;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+.menu-card h2 {
+  margin: 0 0 8px;
+  font-size: 1.1rem;
+}
+
+.menu-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.menu-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+  background: #ffffff;
+}
+/* ===========================
+   SUB PAGES (ORDERS / STATS / ETC)
+=========================== */
+
+.page-body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  min-height: 100vh;
+  background: #f5f7fb;
+}
+
+.page-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 30px 16px 50px;
+}
+
+.page-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 20px 22px 24px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border: 1px solid #eceff4;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.page-title-group h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  color: #333;
+}
+
+.page-title-group p {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.back-link {
+  text-decoration: none;
+  font-size: 0.85rem;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid #ddd;
+  background: #fafafa;
+  color: #555;
+}
+
+.back-link:hover {
+  background: #f0f0f0;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: flex-end;
+  margin-bottom: 12px;
+}
+
+.form-row label {
+  font-size: 0.9rem;
+}
+
+.form-row input,
+.form-row select {
+  width: 180px;
+}
+
+/* Cho nút trong form */
+.form-row button {
+  padding: 6px 12px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  background: #4f46e5;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.form-row button:hover {
+  background: #4338ca;
+}
+
+/* Message */
+.message {
+  margin-top: 8px;
+  padding: 6px;
+  border-radius: 4px;
+}
+
+.message.success {
+  background-color: #e0ffe0;
+  color: #0a0;
+}
+
+.message.error {
+  background-color: #ffe0e0;
+  color: #a00;
+}
+
+/* Table wrapper */
+.table-wrapper {
+  margin-top: 16px;
+  overflow-x: auto;
+}
+
+.table-wrapper table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table-wrapper th,
+.table-wrapper td {
+  padding: 6px 8px;
+  border: 1px solid #e0e0e0;
+  font-size: 0.9rem;
+}
+
+.table-wrapper th {
+  background: #f2f4f8;
+}
+
+/* Modal styles */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+  padding: 15px 20px;
+  background-color: #4f46e5;
+  color: white;
+  border-radius: 8px 8px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.2em;
+}
+
+.modal-close {
+  color: white;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.modal-close:hover,
+.modal-close:focus {
+  color: #ccc;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-body label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.modal-body select {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 0.85em;
+  font-weight: 600;
+}
+
+.status-đang-xử-lý {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-đang-giao {
+  background-color: #cfe2ff;
+  color: #084298;
+}
+
+.status-hoàn-tất {
+  background-color: #d1e7dd;
+  color: #0f5132;
+}
+
+.status-hủy {
+  background-color: #f8d7da;
+  color: #842029;
+}
+
+/* Table controls */
+.table-controls {
+  margin: 15px 0;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+}
+
+.sort-controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.sort-controls label {
+  font-weight: 500;
+}
+
+.sort-controls select {
+  padding: 6px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+/* Required indicator */
+.required {
+  color: #dc3545;
+}
+
+/* Form hints */
+.form-hint {
+  display: block;
+  font-size: 0.85em;
+  color: #6c757d;
+  margin-top: 4px;
+}
+
+/* Action buttons in table */
+.action-btn {
+  padding: 4px 8px;
+  margin: 0 2px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.85em;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.action-btn.edit {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.action-btn.edit:hover {
+  background-color: #0b5ed7;
+}
+
+.action-btn.delete {
+  background-color: #dc3545;
+  color: white;
+}
+
+.action-btn.delete:hover {
+  background-color: #bb2d3b;
+}
