@@ -255,6 +255,74 @@ exports.getCustomerSpending = async (req, res) => {
   }
 };
 
+/**
+ * API: PUT /api/orders/:id/status
+ * - Cập nhật trạng thái đơn hàng bằng stored procedure UpdateOrderStatus
+ */
+exports.updateOrderStatus = async (req, res) => {
+  const orderID = parseInt(req.params.id, 10);
+  const { trangThai } = req.body;
+
+  if (!trangThai) {
+    return res.status(400).json({
+      success: false,
+      message: 'Thiếu trạng thái (trangThai)'
+    });
+  }
+
+  try {
+    const pool = await poolPromise;
+    const request = pool.request()
+      .input('OrderID', sql.Int, orderID)
+      .input('TrangThai', sql.NVarChar(50), trangThai);
+
+    await request.execute('UpdateOrderStatus');
+
+    res.json({ success: true, message: 'Cập nhật trạng thái đơn hàng thành công' });
+  } catch (err) {
+    console.error(err);
+    const sqlMsg =
+      err.originalError && err.originalError.info
+        ? err.originalError.info.message
+        : err.message;
+
+    res.status(400).json({
+      success: false,
+      message: 'Lỗi khi cập nhật trạng thái đơn hàng',
+      error: sqlMsg
+    });
+  }
+};
+
+/**
+ * API: DELETE /api/orders/:id
+ * - Xóa đơn hàng bằng stored procedure DeleteOrder
+ */
+exports.deleteOrder = async (req, res) => {
+  const orderID = parseInt(req.params.id, 10);
+
+  try {
+    const pool = await poolPromise;
+    const request = pool.request().input('OrderID', sql.Int, orderID);
+
+    await request.execute('DeleteOrder');
+
+    res.json({ success: true, message: 'Xóa đơn hàng thành công' });
+  } catch (err) {
+    console.error(err);
+    const sqlMsg =
+      err.originalError && err.originalError.info
+        ? err.originalError.info.message
+        : err.message;
+
+    res.status(400).json({
+      success: false,
+      message: 'Lỗi khi xóa đơn hàng',
+      error: sqlMsg
+    });
+  }
+};
+
 // 3.3 – PROC GetRestaurantSalesStats
 // API: GET /api/stats/restaurantsales?fromDate=2024-01-01&toDate=2026-01-01&minTotal=50000
 exports.getRestaurantSalesStats = async (req, res) => {
