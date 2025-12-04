@@ -1278,87 +1278,87 @@ SELECT dbo.fn_TongTienTietKiemTuVoucher(4, '2024-01-01', '2026-01-01') AS TongTi
 -- Customer không tồn tại
 SELECT dbo.fn_TongTienTietKiemTuVoucher(999, '2024-01-01', '2026-01-01') AS TongTienTietKiem_KH999;
 
------------------------------------------------------------
--- REGION 7.5: STORED PROCEDURES CHO QUẢN LÝ ORDERS (CHO PHẦN 3.2)
------------------------------------------------------------
+    -----------------------------------------------------------
+    -- REGION 7.5: STORED PROCEDURES CHO QUẢN LÝ ORDERS (CHO PHẦN 3.2)
+    -----------------------------------------------------------
 
--- UpdateOrderStatus: Cập nhật trạng thái đơn hàng với kiểm tra logic
-IF OBJECT_ID('UpdateOrderStatus', 'P') IS NOT NULL
-    DROP PROC UpdateOrderStatus;
-GO
+    -- UpdateOrderStatus: Cập nhật trạng thái đơn hàng với kiểm tra logic
+    IF OBJECT_ID('UpdateOrderStatus', 'P') IS NOT NULL
+        DROP PROC UpdateOrderStatus;
+    GO
 
-CREATE PROC UpdateOrderStatus
-    @OrderID       INT,
-    @TrangThai     NVARCHAR(50)
-AS
-BEGIN
-    SET NOCOUNT ON;
-    
-    BEGIN TRY
-        -- Kiểm tra đơn hàng tồn tại
-        IF NOT EXISTS (SELECT 1 FROM ORDERS WHERE order_ID = @OrderID)
-            THROW 50300, N'Không tìm thấy đơn hàng với ID cần cập nhật.', 1;
+    CREATE PROC UpdateOrderStatus
+        @OrderID       INT,
+        @TrangThai     NVARCHAR(50)
+    AS
+    BEGIN
+        SET NOCOUNT ON;
         
-        -- Kiểm tra trạng thái hợp lệ
-        IF @TrangThai NOT IN (N'đang xử lý', N'đang giao', N'hoàn tất', N'hủy')
-            THROW 50301, N'Trạng thái không hợp lệ. Các trạng thái hợp lệ: đang xử lý, đang giao, hoàn tất, hủy', 1;
-        
-        -- Lấy trạng thái hiện tại
-        DECLARE @CurrentStatus NVARCHAR(50);
-        SELECT @CurrentStatus = trang_thai FROM ORDERS WHERE order_ID = @OrderID;
-        
-        -- Kiểm tra logic chuyển trạng thái
-        IF @CurrentStatus IN (N'hoàn tất', N'hủy')
-            THROW 50302, N'Không thể thay đổi trạng thái đơn hàng đã hoàn tất hoặc đã hủy', 1;
-        
-        IF @CurrentStatus = N'đang xử lý' AND @TrangThai NOT IN (N'đang giao', N'hủy')
-            THROW 50303, N'Đơn hàng đang xử lý chỉ có thể chuyển sang "đang giao" hoặc "hủy"', 1;
-        
-        IF @CurrentStatus = N'đang giao' AND @TrangThai <> N'hoàn tất'
-            THROW 50304, N'Đơn hàng đang giao chỉ có thể chuyển sang "hoàn tất"', 1;
-        
-        -- Cập nhật trạng thái (trigger sẽ kiểm tra logic)
-        UPDATE ORDERS
-        SET trang_thai = @TrangThai
-        WHERE order_ID = @OrderID;
-        
-    END TRY
-    BEGIN CATCH
-        THROW;
-    END CATCH
-END;
-GO
+        BEGIN TRY
+            -- Kiểm tra đơn hàng tồn tại
+            IF NOT EXISTS (SELECT 1 FROM ORDERS WHERE order_ID = @OrderID)
+                THROW 50300, N'Không tìm thấy đơn hàng với ID cần cập nhật.', 1;
+            
+            -- Kiểm tra trạng thái hợp lệ
+            IF @TrangThai NOT IN (N'đang xử lý', N'đang giao', N'hoàn tất', N'hủy')
+                THROW 50301, N'Trạng thái không hợp lệ. Các trạng thái hợp lệ: đang xử lý, đang giao, hoàn tất, hủy', 1;
+            
+            -- Lấy trạng thái hiện tại
+            DECLARE @CurrentStatus NVARCHAR(50);
+            SELECT @CurrentStatus = trang_thai FROM ORDERS WHERE order_ID = @OrderID;
+            
+            -- Kiểm tra logic chuyển trạng thái
+            IF @CurrentStatus IN (N'hoàn tất', N'hủy')
+                THROW 50302, N'Không thể thay đổi trạng thái đơn hàng đã hoàn tất hoặc đã hủy', 1;
+            
+            IF @CurrentStatus = N'đang xử lý' AND @TrangThai NOT IN (N'đang giao', N'hủy')
+                THROW 50303, N'Đơn hàng đang xử lý chỉ có thể chuyển sang "đang giao" hoặc "hủy"', 1;
+            
+            IF @CurrentStatus = N'đang giao' AND @TrangThai <> N'hoàn tất'
+                THROW 50304, N'Đơn hàng đang giao chỉ có thể chuyển sang "hoàn tất"', 1;
+            
+            -- Cập nhật trạng thái (trigger sẽ kiểm tra logic)
+            UPDATE ORDERS
+            SET trang_thai = @TrangThai
+            WHERE order_ID = @OrderID;
+            
+        END TRY
+        BEGIN CATCH
+            THROW;
+        END CATCH
+    END;
+    GO
 
--- DeleteOrder: Xóa đơn hàng (chỉ cho phép xóa đơn đã hủy)
-IF OBJECT_ID('DeleteOrder', 'P') IS NOT NULL
-    DROP PROC DeleteOrder;
-GO
+    -- DeleteOrder: Xóa đơn hàng (chỉ cho phép xóa đơn đã hủy)
+    IF OBJECT_ID('DeleteOrder', 'P') IS NOT NULL
+        DROP PROC DeleteOrder;
+    GO
 
-CREATE PROC DeleteOrder
-    @OrderID       INT
-AS
-BEGIN
-    SET NOCOUNT ON;
-    
-    BEGIN TRY
-        -- Kiểm tra đơn hàng tồn tại
-        IF NOT EXISTS (SELECT 1 FROM ORDERS WHERE order_ID = @OrderID)
-            THROW 50400, N'Không tìm thấy đơn hàng với ID cần xóa.', 1;
+    CREATE PROC DeleteOrder
+        @OrderID       INT
+    AS
+    BEGIN
+        SET NOCOUNT ON;
         
-        -- Chỉ cho phép xóa đơn đã hủy
-        IF NOT EXISTS (SELECT 1 FROM ORDERS WHERE order_ID = @OrderID AND trang_thai = N'hủy')
-            THROW 50401, N'Chỉ có thể xóa đơn hàng đã ở trạng thái "hủy"', 1;
-        
-        -- Xóa đơn hàng (CASCADE sẽ xóa các bản ghi liên quan)
-        DELETE FROM ORDERS
-        WHERE order_ID = @OrderID;
-        
-    END TRY
-    BEGIN CATCH
-        THROW;
-    END CATCH
-END;
-GO
+        BEGIN TRY
+            -- Kiểm tra đơn hàng tồn tại
+            IF NOT EXISTS (SELECT 1 FROM ORDERS WHERE order_ID = @OrderID)
+                THROW 50400, N'Không tìm thấy đơn hàng với ID cần xóa.', 1;
+            
+            -- Chỉ cho phép xóa đơn đã hủy
+            IF NOT EXISTS (SELECT 1 FROM ORDERS WHERE order_ID = @OrderID AND trang_thai = N'hủy')
+                THROW 50401, N'Chỉ có thể xóa đơn hàng đã ở trạng thái "hủy"', 1;
+            
+            -- Xóa đơn hàng (CASCADE sẽ xóa các bản ghi liên quan)
+            DELETE FROM ORDERS
+            WHERE order_ID = @OrderID;
+            
+        END TRY
+        BEGIN CATCH
+            THROW;
+        END CATCH
+    END;
+    GO
 
 -----------------------------------------------------------
 -- REGION 8: XEM LẠI TOÀN BỘ DỮ LIỆU

@@ -12,62 +12,116 @@
       <div class="page-header">
         <div class="page-title-group">
           <h1>Quản lý USERS</h1>
-          <p>Thêm / Sửa / Xóa dữ liệu bảng USERS qua stored procedures (Câu 3.1)</p>
+          <p>Thêm / Sửa / Xóa người dùng theo vai trò (CUSTOMER / RESTAURANT / SHIPPER / ADMIN)</p>
         </div>
         <a href="index.html" class="back-link">← Về menu chính</a>
       </div>
 
       <form id="user-form" class="data-form">
         <h3 id="user-form-title">Thêm user mới</h3>
-        
-        <div class="form-group">
-          <label for="user-id">ID <span class="required">*</span>:</label>
-          <input type="number" id="user-id" required min="1">
-          <small class="form-hint">Số nguyên dương</small>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="user-id">ID <span class="required">*</span>:</label>
+            <input type="number" id="user-id" required min="1">
+          </div>
+
+          <div class="form-group">
+            <label for="user-role">Vai trò <span class="required">*</span>:</label>
+            <select id="user-role" required>
+              <option value="">-- Chọn vai trò --</option>
+              <option value="CUSTOMER">Khách hàng</option>
+              <option value="RESTAURANT">Nhà hàng</option>
+              <option value="SHIPPER">Shipper</option>
+              <option value="ADMIN">Admin</option>
+            </select>
+          </div>
         </div>
 
         <div class="form-group">
           <label for="user-hoten">Họ tên <span class="required">*</span>:</label>
           <input type="text" id="user-hoten" required placeholder="Nguyễn Văn A">
-          <small class="form-hint">Chỉ chứa chữ cái và dấu cách</small>
         </div>
 
         <div class="form-group">
           <label for="user-email">Email <span class="required">*</span>:</label>
           <input type="email" id="user-email" required placeholder="example@email.com">
-          <small class="form-hint">Định dạng email hợp lệ</small>
         </div>
 
         <div class="form-group">
           <label for="user-sdt">Số điện thoại <span class="required">*</span>:</label>
-          <input type="text" id="user-sdt" required pattern="0[0-9]{9}" maxlength="10" placeholder="0123456789">
-          <small class="form-hint">10 số, bắt đầu bằng 0</small>
+          <input type="text" id="user-sdt" required maxlength="10" placeholder="0123456789">
         </div>
 
         <div class="form-group">
           <label for="user-password">Mật khẩu <span class="required">*</span>:</label>
-          <input type="password" id="user-password" required minlength="8" placeholder="Tối thiểu 8 ký tự">
-          <small class="form-hint">≥8 ký tự, có chữ, số và ký tự đặc biệt</small>
+          <input type="password" id="user-password" required minlength="8">
         </div>
 
         <div class="form-group">
           <label for="user-tknh">Tài khoản ngân hàng <span class="required">*</span>:</label>
-          <input type="text" id="user-tknh" required pattern="[0-9]{10,16}" minlength="10" maxlength="16" placeholder="1234567890">
-          <small class="form-hint">10-16 chữ số</small>
+          <input type="text" id="user-tknh" required maxlength="16" placeholder="1234567890">
         </div>
 
         <div class="form-group">
           <label for="user-diachi">Địa chỉ <span class="required">*</span>:</label>
           <input type="text" id="user-diachi" required placeholder="Số nhà, đường, phường, quận, thành phố">
         </div>
-    
+
+        <!-- Vùng riêng cho RESTAURANT -->
+        <div id="restaurant-fields" class="role-fields" style="display:none;">
+          <h4>Thông tin nhà hàng</h4>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="rest-open">Giờ mở cửa:</label>
+              <input type="text" id="rest-open" placeholder="08:00" pattern="^([01]\d|2[0-3]):([0-5]\d)$" title="Nhập theo định dạng 24h HH:MM, ví dụ: 08:00 hoặc 22:30">
+            </div>
+            <div class="form-group">
+              <label for="rest-close">Giờ đóng cửa:</label>
+              <input type="text" id="rest-close" placeholder="22:00" pattern="^([01]\d|2[0-3]):([0-5]\d)$" title="Nhập theo định dạng 24h HH:MM, ví dụ: 08:00 hoặc 22:30">
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="rest-status">Trạng thái:</label>
+            <select id="rest-status">
+              <option value="">-- Chọn trạng thái --</option>
+              <option value="đang hoạt động">Đang hoạt động</option>
+              <option value="tạm nghỉ">Tạm nghỉ</option>
+              <option value="đóng cửa">Đóng cửa</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Vùng riêng cho SHIPPER -->
+        <div id="shipper-fields" class="role-fields" style="display:none;">
+          <h4>Thông tin shipper</h4>
+          <div class="form-group">
+            <label for="ship-plate">Biển số xe:</label>
+            <input type="text" id="ship-plate" maxlength="11" placeholder="29-A1-12345">
+          </div>
+          <div class="form-group">
+            <label for="ship-status">Trạng thái:</label>
+            <select id="ship-status">
+              <option value="">-- Chọn trạng thái --</option>
+              <option value="trực tuyến">Trực tuyến</option>
+              <option value="ngoại tuyến">Ngoại tuyến</option>
+              <option value="đang bận">Đang bận</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Vùng riêng cho ADMIN -->
+        <div id="admin-fields" class="role-fields" style="display:none;">
+          <h4>Thông tin admin</h4>
+          <div class="form-group">
+            <label for="admin-role">Quyền hạn:</label>
+            <input type="text" id="admin-role" placeholder="Quản trị hệ thống / Quản lý người dùng ...">
+          </div>
+        </div>
+
         <div class="form-actions">
-          <button type="submit" id="user-submit-btn" class="btn btn-primary">
-            Tạo mới
-          </button>
-          <button type="button" id="user-cancel-edit-btn" class="btn btn-secondary" style="display:none;">
-            Hủy chỉnh sửa
-          </button>
+          <button type="submit" id="user-submit-btn" class="btn btn-primary">Tạo mới</button>
+          <button type="button" id="user-cancel-edit-btn" class="btn btn-secondary" style="display:none;">Hủy chỉnh sửa</button>
         </div>
       </form>
 
@@ -75,10 +129,10 @@
 
       <div class="search-bar">
         <input id="user-search-input" type="text" placeholder="Tìm theo tên, email hoặc SĐT...">
-        <button id="user-search-btn" class="btn btn-search">🔍 Tìm kiếm</button>
+        <button id="user-search-btn" class="btn btn-search">🔍 Tìm</button>
         <button id="user-refresh-btn" class="btn btn-secondary-outline">🔄 Tải lại</button>
       </div>
-    
+
       <div class="table-container">
         <table id="users-table" class="data-table">
           <thead>
@@ -87,13 +141,13 @@
               <th>Họ tên</th>
               <th>Email</th>
               <th>SĐT</th>
-              <th>TKNH</th>
+              <th>Vai trò</th>
               <th>Địa chỉ</th>
               <th>Hành động</th>
             </tr>
           </thead>
           <tbody>
-            <tr><td colspan="7" style="text-align: center;">Đang tải...</td></tr>
+            <tr><td colspan="7" style="text-align:center;">Đang tải...</td></tr>
           </tbody>
         </table>
       </div>

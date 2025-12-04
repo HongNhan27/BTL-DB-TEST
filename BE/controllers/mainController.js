@@ -10,7 +10,7 @@ exports.getUsers = async (req, res) => {
   try {
     const pool = await poolPromise;
     let query = `
-      SELECT ID, Ho_ten, Email, SDT, TKNH, Dia_chi
+      SELECT ID, Ho_ten, Email, SDT, TKNH, Dia_chi, vai_tro
       FROM USERS
       WHERE 1 = 1
     `;
@@ -28,7 +28,6 @@ exports.getUsers = async (req, res) => {
       request.input('search', sql.NVarChar, `%${search}%`);
     }
 
-    // Có thể thêm ORDER BY ID nếu muốn
     query += ' ORDER BY ID ASC';
 
     const result = await request.query(query);
@@ -38,66 +37,98 @@ exports.getUsers = async (req, res) => {
     res.status(500).json({
       success: false,
       message: 'Lỗi khi lấy danh sách users',
-      error: err.message
+      error: err.message,
     });
   }
 };
+
 /**
  * API: POST /api/users
- * - Thêm user mới bằng stored procedure InsertUser
- * Body JSON: { ID, Ho_ten, Email, SDT, Password, TKNH, Dia_chi }
+ * - Thêm user mới bằng stored procedure proc_InsertUser
+ * - Body JSON:
+ *   {
+ *     ID, Ho_ten, Email, SDT, Password, TKNH, Dia_chi, vai_tro,
+ *     Thoi_gian_mo_cua, Thoi_gian_dong_cua, Trang_thai_rest,
+ *     bien_so_xe, trang_thai_ship, quyen_han
+ *   }
  */
+  function parseTimeToDate(timeStr) {
+    if (!timeStr) return null;
+    const [h, m, s] = timeStr.split(':').map(Number);
+    const date = new Date();
+    date.setHours(h, m, s || 0, 0);
+    return date;
+  }
 exports.createUser = async (req, res) => {
-  const { ID, Ho_ten, Email, SDT, Password, TKNH, Dia_chi } = req.body;
+  
+  const {
+    ID, Ho_ten, Email, SDT, Password, TKNH, Dia_chi, vai_tro,
+    Thoi_gian_mo_cua, Thoi_gian_dong_cua, Trang_thai_rest,
+    bien_so_xe, trang_thai_ship, quyen_han,
+  } = req.body;
 
-  // Validate cơ bản (ở FE cũng nên validate nữa)
-  if (!ID || !Ho_ten || !Email) {
+  if (!ID || !Ho_ten || !Email || !vai_tro) {
     return res.status(400).json({
       success: false,
-      message: 'ID, Ho_ten, Email là bắt buộc'
+      message: 'Các trường ID, Ho_ten, Email, vai_tro là bắt buộc.',
     });
   }
-
+  
   try {
     const pool = await poolPromise;
+    
     const request = pool.request()
-      .input('ID', sql.Int, parseInt(ID, 10))
+      .input('ID', sql.Int, ID)
       .input('Ho_ten', sql.NVarChar(40), Ho_ten)
       .input('Email', sql.VarChar(320), Email)
       .input('SDT', sql.VarChar(10), SDT)
       .input('Password', sql.VarChar(100), Password)
       .input('TKNH', sql.VarChar(20), TKNH)
-      .input('Dia_chi', sql.NVarChar(255), Dia_chi);
+      .input('Dia_chi', sql.NVarChar(255), Dia_chi)
+      .input('vai_tro', sql.VarChar(10), vai_tro)
+      .input('Thoi_gian_mo_cua', sql.Time, parseTimeToDate(Thoi_gian_mo_cua))
+      .input('Thoi_gian_dong_cua', sql.Time, parseTimeToDate(Thoi_gian_dong_cua))
+      .input('Trang_thai_rest', sql.NVarChar(14), Trang_thai_rest)
+      .input('bien_so_xe', sql.VarChar(11), bien_so_xe)
+      .input('trang_thai_ship', sql.NVarChar(11), trang_thai_ship)
+      .input('quyen_han', sql.NVarChar(255), quyen_han);
 
-    await request.execute('InsertUser');
+    await request.execute('proc_InsertUser');
 
-    res.json({ success: true, message: 'Thêm user thành công' });
+    res.json({ success: true, message: 'Thêm người dùng thành công!' });
   } catch (err) {
     console.error(err);
-    const sqlMsg =
-      err.originalError && err.originalError.info
-        ? err.originalError.info.message
-        : err.message;
-
+    const sqlMsg = err.originalError?.info?.message || err.message;
     res.status(400).json({
       success: false,
-      message: 'Lỗi khi thêm user',
-      error: sqlMsg
+      message: 'Lỗi khi thêm người dùng',
+      error: sqlMsg,
     });
   }
 };
+
 /**
  * API: PUT /api/users/:id
- * - Cập nhật user bằng stored procedure UpdateUser
+ * - Cập nhật user bằng stored procedure proc_UpdateUser
+ * - Body JSON:
+ *   {
+ *     Ho_ten, Email, SDT, Password, TKNH, Dia_chi,
+ *     Thoi_gian_mo_cua, Thoi_gian_dong_cua, Trang_thai_rest,
+ *     bien_so_xe, trang_thai_ship, quyen_han
+ *   }
  */
 exports.updateUser = async (req, res) => {
   const id = parseInt(req.params.id, 10);
-  const { Ho_ten, Email, SDT, Password, TKNH, Dia_chi } = req.body;
+  const {
+    Ho_ten, Email, SDT, Password, TKNH, Dia_chi,
+    Thoi_gian_mo_cua, Thoi_gian_dong_cua, Trang_thai_rest,
+    bien_so_xe, trang_thai_ship, quyen_han,
+  } = req.body;
 
   if (!Ho_ten || !Email) {
     return res.status(400).json({
       success: false,
-      message: 'Ho_ten và Email là bắt buộc'
+      message: 'Ho_ten và Email là bắt buộc.',
     });
   }
 
@@ -110,29 +141,32 @@ exports.updateUser = async (req, res) => {
       .input('SDT', sql.VarChar(10), SDT)
       .input('Password', sql.VarChar(100), Password)
       .input('TKNH', sql.VarChar(20), TKNH)
-      .input('Dia_chi', sql.NVarChar(255), Dia_chi);
+      .input('Dia_chi', sql.NVarChar(255), Dia_chi)
+      .input('Thoi_gian_mo_cua', sql.Time, parseTimeToDate(Thoi_gian_mo_cua))
+      .input('Thoi_gian_dong_cua', sql.Time, parseTimeToDate(Thoi_gian_dong_cua))
+      .input('Trang_thai_rest', sql.NVarChar(14), Trang_thai_rest)
+      .input('bien_so_xe', sql.VarChar(11), bien_so_xe)
+      .input('trang_thai_ship', sql.NVarChar(11), trang_thai_ship)
+      .input('quyen_han', sql.NVarChar(255), quyen_han);
 
-    await request.execute('UpdateUser');
+    await request.execute('proc_UpdateUser');
 
-    res.json({ success: true, message: 'Cập nhật user thành công' });
+    res.json({ success: true, message: 'Cập nhật người dùng thành công!' });
   } catch (err) {
     console.error(err);
-    const sqlMsg =
-      err.originalError && err.originalError.info
-        ? err.originalError.info.message
-        : err.message;
-
+    const sqlMsg = err.originalError?.info?.message || err.message;
     res.status(400).json({
       success: false,
-      message: 'Lỗi khi cập nhật user',
-      error: sqlMsg
+      message: 'Lỗi khi cập nhật người dùng',
+      error: sqlMsg,
     });
   }
 };
+
 /**
  * API: DELETE /api/users/:id
- * - Xóa user bằng stored procedure DeleteUser
- *   -> có xử lý logic: không cho xóa nếu liên quan ORDERS/SHIPPER/RESTAURANT
+ * - Xóa user bằng stored procedure proc_DeleteUser
+ *   -> Có kiểm tra ràng buộc: không cho xóa nếu có dữ liệu phát sinh.
  */
 exports.deleteUser = async (req, res) => {
   const id = parseInt(req.params.id, 10);
@@ -141,20 +175,16 @@ exports.deleteUser = async (req, res) => {
     const pool = await poolPromise;
     const request = pool.request().input('UserID', sql.Int, id);
 
-    await request.execute('DeleteUser');
+    await request.execute('proc_DeleteUser');
 
-    res.json({ success: true, message: 'Xóa user thành công' });
+    res.json({ success: true, message: 'Xóa người dùng thành công!' });
   } catch (err) {
     console.error(err);
-    const sqlMsg =
-      err.originalError && err.originalError.info
-        ? err.originalError.info.message
-        : err.message;
-
+    const sqlMsg = err.originalError?.info?.message || err.message;
     res.status(400).json({
       success: false,
-      message: 'Lỗi khi xóa user',
-      error: sqlMsg
+      message: 'Lỗi khi xóa người dùng',
+      error: sqlMsg,
     });
   }
 };
